@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Копилка - Админ панель</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div id="loader" class="loader">
+            <div class="spinner"></div>
+            <p>Загрузка...</p>
+        </div>
+
+        <div id="unauthorized" class="screen" style="display: none;">
+            <div class="error-message">
+                <h2>🚫 Доступ запрещен</h2>
+                <p>У вас нет прав администратора</p>
+                <p>Только авторизованные админы могут использовать эту панель</p>
+            </div>
+        </div>
+
+        <div id="admin-panel" class="screen" style="display: none;">
+            <header class="admin-header">
+                <h1>📊 Админ панель Копилка</h1>
+                <div class="admin-info">
+                    <span id="admin-name">Администратор</span>
+                    <span id="admin-id"></span>
+                </div>
+            </header>
+
+            <nav class="admin-nav">
+                <button class="nav-btn active" onclick="showTab('stats')">📈 Статистика</button>
+                <button class="nav-btn" onclick="showTab('users')">👥 Пользователи</button>
+                <button class="nav-btn" onclick="showTab('goals')">🎯 Цели</button>
+                <button class="nav-btn" onclick="showTab('transactions')">💰 Транзакции</button>
+                <button class="nav-btn" onclick="showTab('activity')">📋 Активность</button>
+            </nav>
+
+            <main class="admin-content">
+                <!-- Статистика -->
+                <div id="stats-tab" class="tab-content active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>👥 Пользователи</h3>
+                            <div class="stat-value" id="total-users">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>🎯 Активные цели</h3>
+                            <div class="stat-value" id="active-goals">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>✅ Завершенные</h3>
+                            <div class="stat-value" id="completed-goals">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>💰 Накоплено</h3>
+                            <div class="stat-value" id="total-saved">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>🎯 Цель общая</h3>
+                            <div class="stat-value" id="total-target">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>📊 Транзакций сегодня</h3>
+                            <div class="stat-value" id="transactions-today">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Пользователи -->
+                <div id="users-tab" class="tab-content">
+                    <div class="table-container">
+                        <table id="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Имя</th>
+                                    <th>Username</th>
+                                    <th>Целей</th>
+                                    <th>Накоплено</th>
+                                    <th>Дата регистрации</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Цели -->
+                <div id="goals-tab" class="tab-content">
+                    <div class="table-container">
+                        <table id="goals-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th>Пользователь</th>
+                                    <th>Прогресс</th>
+                                    <th>Сумма</th>
+                                    <th>Цель</th>
+                                    <th>Статус</th>
+                                    <th>Создана</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Транзакции -->
+                <div id="transactions-tab" class="tab-content">
+                    <div class="table-container">
+                        <table id="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Тип</th>
+                                    <th>Сумма</th>
+                                    <th>Цель</th>
+                                    <th>Пользователь</th>
+                                    <th>Баланс после</th>
+                                    <th>Дата</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Активность -->
+                <div id="activity-tab" class="tab-content">
+                    <div class="table-container">
+                        <table id="activity-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Действие</th>
+                                    <th>Пользователь</th>
+                                    <th>Детали</th>
+                                    <th>Дата</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
