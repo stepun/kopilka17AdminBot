@@ -4,6 +4,8 @@ const path = require('path');
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const { setupAdminWebhook } = require('./admin-bot');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -159,6 +161,9 @@ app.get('/api/admin/me', requireAdmin, (req, res) => {
   res.json(req.adminUser);
 });
 
+// Настройка webhook для админ бота
+setupAdminWebhook(app);
+
 // Главная страница админки
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
@@ -167,4 +172,10 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Admin panel running on port ${PORT}`);
   console.log(`Authorized admins: ${ADMIN_IDS.join(', ')}`);
+
+  if (process.env.ADMIN_BOT_TOKEN) {
+    console.log('🔧 Admin bot webhook ready at /admin-webhook');
+  } else {
+    console.log('⚠️ ADMIN_BOT_TOKEN not set - admin bot disabled');
+  }
 });
