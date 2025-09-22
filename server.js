@@ -23,6 +23,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Middleware для проверки прав админа
 function requireAdmin(req, res, next) {
   const telegramInitData = req.headers['x-telegram-init-data'];
+  const adminKey = req.headers['x-admin-key'];
+
+  // Обходной путь для тестирования (только в development)
+  if (adminKey === process.env.ADMIN_KEY && process.env.NODE_ENV !== 'production') {
+    req.adminUser = { id: 120962578, first_name: 'Admin', username: 'admin' };
+    return next();
+  }
 
   if (!telegramInitData) {
     return res.status(401).json({ error: 'Unauthorized' });
